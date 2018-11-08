@@ -6,4 +6,3 @@ def readFile(file_name):
         lines.append(temp_line)
         temp_line = data_file.readline()
     return lines
-    return lines
