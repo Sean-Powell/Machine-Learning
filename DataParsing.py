@@ -17,3 +17,7 @@ def parseData(lines):
         data_set.append(new_object)
     return data_set
 
+
+def convetToNumber(string):
+    return int(string)
+

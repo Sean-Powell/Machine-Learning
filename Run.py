@@ -1,13 +1,6 @@
 import ReadFile
 import DataParsing
-
-def _drawGraph(amount_of_fields):
-    if amount_of_fields <= 2:
-       print("2D graph")
-    elif amount_of_fields == 3:
-        print("3D graph")
-    else:
-        print("too many fields selected")
+import Graphing
 
 
 def _askUser(length):
@@ -20,12 +13,14 @@ def _askUser(length):
 
 
 def _run():
+    data_names = ["Sepal Length", "Sepal Width", "Petal Length", "Petal Width"]
     data_set = DataParsing.parseData(ReadFile.readFile("irisData.txt"))
     user_input = _askUser(data_set[0].data_size)
     amount_of_fields = len(user_input)
-    _drawGraph(amount_of_fields)
-    for input in user_input:
-        print(input)
+    converted_input = []
+    for i in user_input:
+        converted_input.append(DataParsing.convetToNumber(i))
+    Graphing.drawGraph(amount_of_fields, converted_input, data_set, data_names)
 
 
 _run()
