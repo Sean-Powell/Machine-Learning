@@ -41,6 +41,38 @@ def _plot3DGraph(user_input, data_set, labels):
     ply.show()
 
 
+def plot3DClustering(clusters, user_input, labels):
+    fig = ply.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    current_cluster = clusters[0]
+    ax.scatter(float(current_cluster.get_x()), float(current_cluster.get_y()), float(current_cluster.get_z()), c='r', marker='o')
+    for data in current_cluster.get_list():
+        x = float(data.Data[user_input[0] - 1])
+        y = float(data.Data[user_input[1] - 1])
+        z = float(data.Data[user_input[2] - 1])
+        ax.scatter(x, y, z,  c='r', marker='o')
+    current_cluster = clusters[1]
+    ax.scatter(float(current_cluster.get_x()), float(current_cluster.get_y()), float(current_cluster.get_z()), c='g', marker='o')
+    for data in current_cluster.get_list():
+        x = float(data.Data[user_input[0] - 1])
+        y = float(data.Data[user_input[1] - 1])
+        z = float(data.Data[user_input[2] - 1])
+        ax.scatter(x, y, z, c='g', marker='o')
+    current_cluster = clusters[2]
+    ax.scatter(float(current_cluster.get_x()), float(current_cluster.get_y()), float(current_cluster.get_z()), c='b', marker='o')
+    for data in current_cluster.get_list():
+        x = float(data.Data[user_input[0] - 1])
+        y = float(data.Data[user_input[1] - 1])
+        z = float(data.Data[user_input[2] - 1])
+        ax.scatter(x, y, z, c='b', marker='o')
+
+    ax.set_xlabel(labels[user_input[0] - 1])
+    ax.set_ylabel(labels[user_input[1] - 1])
+    ax.set_zlabel(labels[user_input[2] - 1])
+
+    ply.show()
+
+
 def _plot2DGraph(user_input, data_set, labels):
     x = []
     y = []

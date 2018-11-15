@@ -1,6 +1,7 @@
 import ReadFile
 import DataParsing
 import Graphing
+import Clustering
 
 
 def _askUser(length):
@@ -21,6 +22,14 @@ def _run():
     for i in user_input:
         converted_input.append(DataParsing.convetToNumber(i))
     Graphing.drawGraph(amount_of_fields, converted_input, data_set, data_names)
+    clusters = Clustering.formClusters(Clustering.randomlySelectClusters(data_set, converted_input), data_set, converted_input)
+    final_clusters = Clustering.recalculateClusters(clusters, converted_input)
+    print("final clusters:")
+    length_1 = len(final_clusters[0].list_of_points)
+    length_2 = len(final_clusters[1].list_of_points)
+    length_3 = len(final_clusters[2].list_of_points)
+    print("cluster 1 length: ", length_1, ", cluster 2 length: ", length_2,
+          ", cluster 3 length: ", length_3, ", total length", (length_1 + length_2 + length_3))
 
-
+    Graphing.plot3DClustering(final_clusters, converted_input, data_names)
 _run()

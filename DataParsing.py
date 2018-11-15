@@ -8,6 +8,7 @@ class DataObject:
     def setsize(self, size):
         self.data_size = size
 
+
 def parseData(lines):
     data_set = []
     for current_line in lines:
