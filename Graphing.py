@@ -12,6 +12,7 @@ def newDrawGraph(data_set, labels):
         three_dimesnsion_graph = 3
         _newPlot3DGraph(data_set, labels)
 
+
 def _newPlot3DGraph(data_set, labels):
     fig = ply.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -42,14 +43,15 @@ def newPlot3DClustering(clusters, labels):
     ax = fig.add_subplot(111, projection='3d')
     i = 0
 
-    for cluster in  clusters:
+    for cluster in clusters:
         color = 'r'
         if i == 1:
             color = 'g'
         elif i == 2:
             color = 'b'
         i += 1
-        ax.scatter(float(cluster.get_x()), float(cluster.get_x()), float(cluster.get_x()), c=color, marker='o')
+        ax.scatter(float(cluster.get_original_x()), float(cluster.get_original_y()), float(cluster.get_original_z()),
+                   c=color, marker='o')
         for data in cluster.get_list():
             x = float(data.get_x())
             y = float(data.get_y())
