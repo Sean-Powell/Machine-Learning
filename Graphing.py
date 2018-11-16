@@ -2,73 +2,63 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as ply
 
 
-def drawGraph(amount_of_fields, user_input, data_set, labels):
-    if amount_of_fields == 1:
-        _plat1DGraph(user_input, data_set, labels)
-    elif amount_of_fields == 2:
-        _plot2DGraph(user_input, data_set, labels)
-    elif amount_of_fields == 3:
-        _plot3DGraph(user_input, data_set, labels)
-    else:
-        print("too many fields selected")
+def newDrawGraph(data_set, labels):
+    data_length = data_set[0].get_size()
+    if data_length == 1:
+        one_dimension_graph = 1
+    elif data_length == 2:
+        two_dimension_graph = 2
+    elif data_length == 3:
+        three_dimesnsion_graph = 3
+        _newPlot3DGraph(data_set, labels)
 
-
-def _plot3DGraph(user_input, data_set, labels):
+def _newPlot3DGraph(data_set, labels):
     fig = ply.figure()
     ax = fig.add_subplot(111, projection='3d')
 
     for data in data_set:
-        if data.Data[4] == 'Iris-setosa\n':
-            x = float(data.Data[user_input[0] - 1])
-            y = float(data.Data[user_input[1] - 1])
-            z = float(data.Data[user_input[2] - 1])
-            ax.scatter(x, y, z, c='r', marker='o')
-        elif data.Data[4] == 'Iris-versicolor\n':
-            x = float(data.Data[user_input[0] - 1])
-            y = float(data.Data[user_input[1] - 1])
-            z = float(data.Data[user_input[2] - 1])
-            ax.scatter(x, y, z, c='g', marker='o')
-        elif data.Data[4] == 'Iris-virginica\n':
-            x = float(data.Data[user_input[0] - 1])
-            y = float(data.Data[user_input[1] - 1])
-            z = float(data.Data[user_input[2] - 1])
-            ax.scatter(x, y, z, c='b', marker='o')
+        data_class = data.get_class()
+        x = float(data.get_x())
+        y = float(data.get_y())
+        z = float(data.get_z())
 
-    ax.set_xlabel(labels[user_input[0] - 1])
-    ax.set_ylabel(labels[user_input[1] - 1])
-    ax.set_zlabel(labels[user_input[2] - 1])
+        color = 'r'
+        if 'Iris-versicolor' in data_class:
+            color = 'g'
+        elif 'Iris-virginica' in data_class:
+            color = 'b'
+
+        ax.scatter(x, y, z, c=color, marker='o')
+
+    ax.set_xlabel(labels[0])
+    ax.set_ylabel(labels[1])
+    ax.set_zlabel(labels[2])
 
     ply.show()
 
 
-def plot3DClustering(clusters, user_input, labels):
+def newPlot3DClustering(clusters, labels):
     fig = ply.figure()
     ax = fig.add_subplot(111, projection='3d')
-    current_cluster = clusters[0]
-    ax.scatter(float(current_cluster.get_x()), float(current_cluster.get_y()), float(current_cluster.get_z()), c='r', marker='o')
-    for data in current_cluster.get_list():
-        x = float(data.Data[user_input[0] - 1])
-        y = float(data.Data[user_input[1] - 1])
-        z = float(data.Data[user_input[2] - 1])
-        ax.scatter(x, y, z,  c='r', marker='o')
-    current_cluster = clusters[1]
-    ax.scatter(float(current_cluster.get_x()), float(current_cluster.get_y()), float(current_cluster.get_z()), c='g', marker='o')
-    for data in current_cluster.get_list():
-        x = float(data.Data[user_input[0] - 1])
-        y = float(data.Data[user_input[1] - 1])
-        z = float(data.Data[user_input[2] - 1])
-        ax.scatter(x, y, z, c='g', marker='o')
-    current_cluster = clusters[2]
-    ax.scatter(float(current_cluster.get_x()), float(current_cluster.get_y()), float(current_cluster.get_z()), c='b', marker='o')
-    for data in current_cluster.get_list():
-        x = float(data.Data[user_input[0] - 1])
-        y = float(data.Data[user_input[1] - 1])
-        z = float(data.Data[user_input[2] - 1])
-        ax.scatter(x, y, z, c='b', marker='o')
+    i = 0
 
-    ax.set_xlabel(labels[user_input[0] - 1])
-    ax.set_ylabel(labels[user_input[1] - 1])
-    ax.set_zlabel(labels[user_input[2] - 1])
+    for cluster in  clusters:
+        color = 'r'
+        if i == 1:
+            color = 'g'
+        elif i == 2:
+            color = 'b'
+        i += 1
+        ax.scatter(float(cluster.get_x()), float(cluster.get_x()), float(cluster.get_x()), c=color, marker='o')
+        for data in cluster.get_list():
+            x = float(data.get_x())
+            y = float(data.get_y())
+            z = float(data.get_z())
+            ax.scatter(x, y, z, c=color, marker='o')
+
+    ax.set_xlabel(labels[0])
+    ax.set_ylabel(labels[1])
+    ax.set_zlabel(labels[2])
 
     ply.show()
 
