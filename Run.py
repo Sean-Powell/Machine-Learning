@@ -46,7 +46,6 @@ def _generateTestSet(data_set):
     return testing_set
 
 
-
 def _run():
     data_names = ["Sepal Length", "Sepal Width", "Petal Length", "Petal Width"]
     user_input = _askUser()
@@ -71,7 +70,7 @@ def _run():
 
     # part 2
     clusters = Clustering.chooseStartingClusterCenters(data_set)
-    Graphing.newPlot3DClustering(clusters, used_names)
+    Graphing.DrawClustering(clusters, used_names)
 
     # part 3
     test_set = []
@@ -81,5 +80,6 @@ def _run():
         data_set.remove(test_data)
 
     Clustering.testClustering(clusters, test_set)
+
 
 _run()

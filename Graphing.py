@@ -8,9 +8,21 @@ def newDrawGraph(data_set, labels):
         one_dimension_graph = 1
     elif data_length == 2:
         two_dimension_graph = 2
+        _newPlot2DGraph(data_set, labels)
     elif data_length == 3:
         three_dimesnsion_graph = 3
         _newPlot3DGraph(data_set, labels)
+
+
+def DrawClustering(clusters, labels):
+    if clusters[0].get_y() != 0 and clusters[0].get_z() != 0:
+        print("its a 3D scatter plot")
+        _newPlot3DClustering(clusters, labels)
+    elif clusters[0].get_y() != 0:
+        _plot2DClustering(clusters, labels)
+        print("its a 2D scatter plot")
+    else:
+        print("its a 1D scatter plot")
 
 
 def _newPlot3DGraph(data_set, labels):
@@ -38,7 +50,7 @@ def _newPlot3DGraph(data_set, labels):
     ply.show()
 
 
-def newPlot3DClustering(clusters, labels):
+def _newPlot3DClustering(clusters, labels):
     fig = ply.figure()
     ax = fig.add_subplot(111, projection='3d')
     i = 0
@@ -57,6 +69,9 @@ def newPlot3DClustering(clusters, labels):
             y = float(data.get_y())
             z = float(data.get_z())
             ax.scatter(x, y, z, c=color, marker='o')
+
+        ax.scatter(float(cluster.get_x()), float(cluster.get_y()), float(cluster.get_z()),
+                   c='black', marker='o')
 
     ax.set_xlabel(labels[0])
     ax.set_ylabel(labels[1])
@@ -84,6 +99,63 @@ def _plot2DGraph(user_input, data_set, labels):
     ply.scatter(x, y, 3, c)
     ply.xlabel(labels[user_input[0] - 1])
     ply.ylabel(labels[user_input[1] - 1])
+    ply.show()
+
+
+def _newPlot2DGraph(data_set, labels):
+    x = []
+    y = []
+    c = []
+
+    for data in data_set:
+        x.append(float(data.get_x()))
+        y.append(float(data.get_y()))
+
+        data_class = data.get_class()
+        if 'Iris-setosa' in data_class:
+            c.append('r')
+        elif 'Iris-versicolor' in data_class:
+            c.append('g')
+        elif 'Iris-virginica' in data_class:
+            c.append('b')
+
+    ply.scatter(x, y, 3, c)
+
+    ply.xlabel(labels[0])
+    ply.ylabel(labels[1])
+
+    ply.show()
+
+
+def _plot2DClustering(clusters, labels):
+    x = []
+    y = []
+    c = []
+
+    for i in range(3):
+        x.append(float(clusters[i].get_original_x()))
+        y.append(float(clusters[i].get_original_y()))
+        if i == 0:
+            c.append('r')
+        elif i == 1:
+            c.append('g')
+        elif i == 2:
+            c.append('b')
+
+        for data in clusters[i].get_list():
+            x.append(float(data.get_x()))
+            y.append(float(data.get_y()))
+            if i == 0:
+                c.append('r')
+            elif i == 1:
+                c.append('g')
+            elif i == 2:
+                c.append('b')
+
+    ply.scatter(x, y, 3, c)
+    ply.xlabel(labels[0])
+    ply.ylabel(labels[1])
+
     ply.show()
 
 
