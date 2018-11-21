@@ -5,24 +5,20 @@ import matplotlib.pyplot as ply
 def newDrawGraph(data_set, labels):
     data_length = data_set[0].get_size()
     if data_length == 1:
-        one_dimension_graph = 1
+        _newPlot1DGraph(data_set, labels)
     elif data_length == 2:
-        two_dimension_graph = 2
         _newPlot2DGraph(data_set, labels)
     elif data_length == 3:
-        three_dimesnsion_graph = 3
         _newPlot3DGraph(data_set, labels)
 
 
 def DrawClustering(clusters, labels):
     if clusters[0].get_y() != 0 and clusters[0].get_z() != 0:
-        print("its a 3D scatter plot")
         _newPlot3DClustering(clusters, labels)
     elif clusters[0].get_y() != 0:
         _plot2DClustering(clusters, labels)
-        print("its a 2D scatter plot")
     else:
-        print("its a 1D scatter plot")
+        _plot1DClustering(clusters, labels)
 
 
 def _newPlot3DGraph(data_set, labels):
@@ -77,28 +73,6 @@ def _newPlot3DClustering(clusters, labels):
     ax.set_ylabel(labels[1])
     ax.set_zlabel(labels[2])
 
-    ply.show()
-
-
-def _plot2DGraph(user_input, data_set, labels):
-    x = []
-    y = []
-    c = []
-
-    for data in data_set:
-        x.append(float(data.Data[user_input[0] - 1]))
-        # y.append(0)
-        y.append(float(data.Data[user_input[1] - 1]))
-        if 'Iris-setosa' in data.Data[4]:
-            c.append('r')
-        elif 'Iris-versicolor' in data.Data[4]:
-            c.append('g')
-        elif 'Iris-virginica' in data.Data[4]:
-            c.append('b')
-
-    ply.scatter(x, y, 3, c)
-    ply.xlabel(labels[user_input[0] - 1])
-    ply.ylabel(labels[user_input[1] - 1])
     ply.show()
 
 
@@ -159,21 +133,57 @@ def _plot2DClustering(clusters, labels):
     ply.show()
 
 
-def _plat1DGraph(user_input, data_set, labels):
+def _newPlot1DGraph(data_set, labels):
     x = []
     y = []
     c = []
 
     for data in data_set:
-        x.append(float(data.Data[user_input[0] - 1]))
+        x.append(float(data.get_x()))
         y.append(0)
-        if 'Iris-setosa' in data.Data[4]:
+
+        data_class = data.get_class()
+        if 'Iris-setosa' in data_class:
             c.append('r')
-        elif 'Iris-versicolor' in data.Data[4]:
+        elif 'Iris-versicolor' in data_class:
             c.append('g')
-        elif 'Iris-virginica' in data.Data[4]:
+        elif 'Iris-virginica' in data_class:
             c.append('b')
 
     ply.scatter(x, y, 3, c)
-    ply.xlabel(labels[user_input[0] - 1])
+
+    ply.xlabel(labels[0])
+
+    ply.show()
+
+
+def _plot1DClustering(clusters, labels):
+    x = []
+    y = []
+    c = []
+
+    for i in range(3):
+        x.append(float(clusters[i].get_original_x()))
+        y.append(0)
+
+        if i == 0:
+            c.append('r')
+        elif i == 1:
+            c.append('g')
+        elif i == 2:
+            c.append('b')
+
+        for data in clusters[i].get_list():
+            x.append(float(data.get_x()))
+            y.append(0)
+            if i == 0:
+                c.append('r')
+            elif i == 1:
+                c.append('g')
+            elif i == 2:
+                c.append('b')
+
+    ply.scatter(x, y, 3, c)
+    ply.xlabel(labels[0])
+
     ply.show()

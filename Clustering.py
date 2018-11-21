@@ -5,6 +5,15 @@ import Cluster
 import random
 
 
+def formCluster(index, data_set):
+    data = data_set[index]
+    x = data.get_x()
+    y = data.get_y()
+    z = data.get_z()
+    cluster = Cluster.ClusterCenter(x, y, z, x, y, z, data.get_class())
+    return cluster
+
+
 def chooseStartingClusterCenters(data_set):
     class_indexes = []
 
@@ -16,30 +25,14 @@ def chooseStartingClusterCenters(data_set):
             current_class = data.get_class()
         i += 1
 
-    cluster_list = []
+    cluster_list = [formCluster(random.randint(1, class_indexes[0]), data_set),
+                    formCluster(random.randint(class_indexes[0], class_indexes[1]), data_set),
+                    formCluster(random.randint(class_indexes[1], len(data_set)), data_set)]
 
-    cluster_index = random.randint(1, class_indexes[0])
-    cluster_list.append(Cluster.ClusterCenter(data_set[cluster_index].get_x(), data_set[cluster_index].get_y(),
-                                              data_set[cluster_index].get_z(), data_set[cluster_index].get_x(),
-                                              data_set[cluster_index].get_y(), data_set[cluster_index].get_z(),
-                                              data_set[cluster_index].get_class()))
-
-    cluster_index = random.randint(class_indexes[0], class_indexes[1])
-    cluster_list.append(Cluster.ClusterCenter(data_set[cluster_index].get_x(), data_set[cluster_index].get_y(),
-                                              data_set[cluster_index].get_z(), data_set[cluster_index].get_x(),
-                                              data_set[cluster_index].get_y(), data_set[cluster_index].get_z(),
-                                              data_set[cluster_index].get_class()))
-
-    cluster_index = random.randint(class_indexes[1], len(data_set) + 1)
-    cluster_list.append(Cluster.ClusterCenter(data_set[cluster_index].get_x(), data_set[cluster_index].get_y(),
-                                              data_set[cluster_index].get_z(), data_set[cluster_index].get_x(),
-                                              data_set[cluster_index].get_y(), data_set[cluster_index].get_z(),
-                                              data_set[cluster_index].get_class()))
-
-    return newClusterForming(cluster_list, data_set)
+    return _clusterForming(cluster_list, data_set)
 
 
-def newClusterForming(clusters, data_set):
+def _clusterForming(clusters, data_set):
     for data in data_set:
         found = 0
         for cluster in clusters:
@@ -52,17 +45,17 @@ def newClusterForming(clusters, data_set):
             i = 0
             for cluster in clusters:
                 euclidean_distance = math.sqrt(math.pow(float(data.get_x()) - float(cluster.get_x()), 2) +
-                                                math.pow(float(data.get_y()) - float(cluster.get_y()), 2) +
-                                                math.pow(float(data.get_z()) - float(cluster.get_z()), 2))
+                                               math.pow(float(data.get_y()) - float(cluster.get_y()), 2) +
+                                               math.pow(float(data.get_z()) - float(cluster.get_z()), 2))
                 if euclidean_distance < distance_to_closest:
                     distance_to_closest = euclidean_distance
                     closest_index = i
             clusters[closest_index].add_to_list(data)
 
-    return newRefactorClusters(clusters)
+    return _refactorClusters(clusters)
 
 
-def newRefactorClusters(clusters):
+def _refactorClusters(clusters):
     # change so when x_pos is updated the original location is not lost
     new_clusters = []
     for cluster in clusters:
@@ -102,7 +95,7 @@ def newRefactorClusters(clusters):
                 num_of_changes += 1
 
     if num_of_changes >= 3:
-        return newRefactorClusters(new_clusters)
+        return _refactorClusters(new_clusters)
     else:
         return new_clusters
 
@@ -112,7 +105,6 @@ def testClustering(clusters, test_set):
     for test_data in test_set:
         closest_index = 0
         closest_distance = sys.maxsize
-        i = 0
         for i in range(3):
             euclidean_distance = math.sqrt(math.pow(float(test_data.get_x()) - clusters[i].get_x(), 2) +
                                            math.pow(float(test_data.get_y()) - clusters[i].get_y(), 2) +
