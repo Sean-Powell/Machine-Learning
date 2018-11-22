@@ -2,6 +2,31 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as ply
 
 
+def _newPlot3DGraph(data_set, labels):
+    fig = ply.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    for data in data_set:
+        data_class = data.get_class()
+        x = float(data.get_x())
+        y = float(data.get_y())
+        z = float(data.get_z())
+
+        color = 'r'
+        if 'Iris-versicolor' in data_class:
+            color = 'g'
+        elif 'Iris-virginica' in data_class:
+            color = 'b'
+
+        ax.scatter(x, y, z, c=color, marker='o')
+
+    ax.set_xlabel(labels[0])
+    ax.set_ylabel(labels[1])
+    ax.set_zlabel(labels[2])
+
+    ply.show()
+
+
 def newDrawGraph(data_set, labels):
     data_length = data_set[0].get_size()
     if data_length == 1:

@@ -1,7 +1,8 @@
 import ReadFile
 import DataParsing
 import Graphing
-import Clustering
+import KMeansClustering
+import KNNClustering
 import random
 
 
@@ -69,7 +70,7 @@ def _run():
     Graphing.newDrawGraph(data_set, used_names)
 
     # part 2
-    clusters = Clustering.chooseStartingClusterCenters(data_set)
+    clusters = KMeansClustering.chooseStartingClusterCenters(data_set)
     Graphing.DrawClustering(clusters, used_names)
 
     # part 3
@@ -79,7 +80,8 @@ def _run():
         test_set.append(test_data)
         data_set.remove(test_data)
 
-    Clustering.testClustering(clusters, test_set)
+    KNNClustering.calculateKNN(data_set, test_set, 7)
+    KMeansClustering.testClustering(clusters, test_set)
 
 
 _run()

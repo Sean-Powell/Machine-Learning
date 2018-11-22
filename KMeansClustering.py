@@ -5,7 +5,7 @@ import Cluster
 import random
 
 
-def formCluster(index, data_set):
+def _formCluster(index, data_set):
     data = data_set[index]
     x = data.get_x()
     y = data.get_y()
@@ -25,9 +25,9 @@ def chooseStartingClusterCenters(data_set):
             current_class = data.get_class()
         i += 1
 
-    cluster_list = [formCluster(random.randint(1, class_indexes[0]), data_set),
-                    formCluster(random.randint(class_indexes[0], class_indexes[1]), data_set),
-                    formCluster(random.randint(class_indexes[1], len(data_set)), data_set)]
+    cluster_list = [_formCluster(random.randint(1, class_indexes[0]), data_set),
+                    _formCluster(random.randint(class_indexes[0], class_indexes[1]), data_set),
+                    _formCluster(random.randint(class_indexes[1], len(data_set)), data_set)]
 
     return _clusterForming(cluster_list, data_set)
 
