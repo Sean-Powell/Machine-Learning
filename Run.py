@@ -4,6 +4,7 @@ import Graphing
 import KMeansClustering
 import KNNClustering
 import random
+import MergeSort
 
 
 def _askUser():
@@ -48,6 +49,7 @@ def _generateTestSet(data_set):
 
 
 def _run():
+    KNNClustering.MergeTest()
     data_names = ["Sepal Length", "Sepal Width", "Petal Length", "Petal Width"]
     user_input = _askUser()
     converted_input = []

@@ -1,5 +1,6 @@
 import math
-import sys
+import sys#
+import MergeSort
 class EuclidianObj:
     distance = 0
     original_index = 0
@@ -14,6 +15,11 @@ class EuclidianObj:
     def get_index(self):
         return self.original_index
 
+def MergeTest():
+    to_sort = [EuclidianObj(3, 1), EuclidianObj(1, 1), EuclidianObj(2, 1), EuclidianObj(4, 1)]
+    to_sort = MergeSort.MergeSort(to_sort)
+
+    print("Done")
 
 def calculateKNN(data_set, testing_data, k):
     print("maybe works who knows")
@@ -23,7 +29,7 @@ def calculateKNN(data_set, testing_data, k):
         for i in range(len(data_set)):
             e_obj = EuclidianObj(_calculateEuclideanDistance(test_data, data_set[i]), i)
             euclidean_distances.append(e_obj)
-        euclidean_distances.sort(key=lambda c: EuclidianObj.distance, reverse=False)
+        euclidean_distances.sort(key=lambda c: EuclidianObj.distance, reverse=False) # replace with merge sort
 
         k_points = []
         for i in range(k):
