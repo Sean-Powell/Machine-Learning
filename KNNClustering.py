@@ -15,21 +15,16 @@ class EuclidianObj:
     def get_index(self):
         return self.original_index
 
-def MergeTest():
-    to_sort = [EuclidianObj(3, 1), EuclidianObj(1, 1), EuclidianObj(2, 1), EuclidianObj(4, 1)]
-    to_sort = MergeSort.MergeSort(to_sort)
-
-    print("Done")
 
 def calculateKNN(data_set, testing_data, k):
-    print("maybe works who knows")
     correct = 0
     for test_data in testing_data:
         euclidean_distances = []
         for i in range(len(data_set)):
             e_obj = EuclidianObj(_calculateEuclideanDistance(test_data, data_set[i]), i)
             euclidean_distances.append(e_obj)
-        euclidean_distances.sort(key=lambda c: EuclidianObj.distance, reverse=False) # replace with merge sort
+        # euclidean_distances.sort(key=lambda c: EuclidianObj.distance, reverse=False) # replace with merge sort
+        euclidean_distances = MergeSort.MergeSort(euclidean_distances)
 
         k_points = []
         for i in range(k):
@@ -45,11 +40,13 @@ def calculateKNN(data_set, testing_data, k):
             elif 'Iris-virginica' in point_class:
                 class_counts[2] += 1
 
-        max = sys.maxsize
+        print(class_counts)
+
+        max_value = sys.maxsize * -1
         max_index = 0
         for i in range(3):
-            if class_counts[i] < max:
-                max = class_counts[i]
+            if class_counts[i] > max_value:
+                max_value = class_counts[i]
                 max_index = i
 
         predicted_class = 0
@@ -60,10 +57,12 @@ def calculateKNN(data_set, testing_data, k):
         else:
             predicted_class = 'Iris-virginica'
 
+        print("predicted class:", predicted_class,  "actual class: ",  test_data.get_class())
         if predicted_class in test_data.get_class():
             correct += 1
 
     print("KNN got ", correct, " out of ", len(testing_data))
+    return correct
 
 
 def _calculateEuclideanDistance(point_one, point_two):

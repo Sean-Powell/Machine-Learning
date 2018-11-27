@@ -4,7 +4,7 @@ import Graphing
 import KMeansClustering
 import KNNClustering
 import random
-import MergeSort
+import math
 
 
 def _askUser():
@@ -16,40 +16,26 @@ def _askUser():
     return split_user
 
 
-def _generateTestSet(data_set):
-    data_indexes = []
+def _generateTestSet(data_set, percentage):
+    length = len(data_set)
+    percent = math.ceil(length / 100)
+    amount = percent * percentage
+
     testing_set = []
 
-    current_class = data_set[0].get_class()
-
-    i = 0
-    for data in data_set:
-        if data.data_class != current_class:
-            data_indexes.append(i)
-            current_class = data.data_class
-        i += 1
-    lower_bound = 1
-
-    data_indexes.append(len(data_set))
-
-    x = 0
-    index = 0
-    while index < 3:
-        rand_bound = random.randint(1, 10)
-        for j in range(rand_bound):
-            rand_num = -1
-            while rand_num in testing_set or rand_num == -1:
-                rand_num = random.randint(lower_bound, data_indexes[index]) - 1 # so it starts at 0 not 1
-            testing_set.append(rand_num)
-            x += 1
-        lower_bound = data_indexes[index]
-        index += 1
+    for i in range(amount):
+        generated_number = random.randint(1, length) - 1
+        while generated_number in testing_set:
+            generated_number = random.randint(1, length) - 1
+        testing_set.append(generated_number)
 
     return testing_set
 
 
+correct = []
+
+
 def _run():
-    KNNClustering.MergeTest()
     data_names = ["Sepal Length", "Sepal Width", "Petal Length", "Petal Width"]
     user_input = _askUser()
     converted_input = []
@@ -58,7 +44,7 @@ def _run():
 
     data_set = DataParsing.parseData(ReadFile.readFile("irisData.txt"), converted_input)
 
-    testing_indexes = _generateTestSet(data_set)
+    testing_indexes = _generateTestSet(data_set, 10)
     testing_indexes.sort(reverse=True)
     print(testing_indexes)
 
@@ -82,8 +68,8 @@ def _run():
         test_set.append(test_data)
         data_set.remove(test_data)
 
-    KNNClustering.calculateKNN(data_set, test_set, 7)
-    KMeansClustering.testClustering(clusters, test_set)
+    correct.append(KNNClustering.calculateKNN(data_set, test_set, 13))
+    # KMeansClustering.testClustering(clusters, test_set)
 
 
 _run()

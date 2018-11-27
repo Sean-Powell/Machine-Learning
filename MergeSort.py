@@ -1,5 +1,7 @@
 import math
 # TODO fix merge sort implementation for some reason the same obj is remade in every spot
+
+
 def MergeSort(data_list):
     if len(data_list) <= 1:
         return data_list
@@ -13,12 +15,13 @@ def MergeSort(data_list):
         sublist_a.append(data_list[i])
 
     for i in range(len(data_list) - size):
-        sublist_b.append(data_list[i])
+        sublist_b.append(data_list[i + size])
 
     sublist_a = MergeSort(sublist_a)
     sublist_b = MergeSort(sublist_b)
 
     return Merge(sublist_a, sublist_b)
+
 
 def Merge(list_a, list_b):
     result = []
