@@ -3,6 +3,7 @@ import DataParsing
 import Graphing
 import KMeansClustering
 import KNNClustering
+import RandomKMeansClustering
 import random
 import math
 
@@ -58,7 +59,9 @@ def _run():
     Graphing.newDrawGraph(data_set, used_names)
 
     # part 2
-    clusters = KMeansClustering.chooseStartingClusterCenters(data_set)
+    # clusters = KMeansClustering.chooseStartingClusterCenters(data_set)
+    # clusters = KMeansClustering.randomlyChooseStartingCenters(data_set)
+    clusters = RandomKMeansClustering.randomlyChooseStartingCenters(data_set)
     Graphing.DrawClustering(clusters, used_names)
 
     # part 3
@@ -69,7 +72,6 @@ def _run():
         data_set.remove(test_data)
 
     correct.append(KNNClustering.calculateKNN(data_set, test_set, 13))
-    # KMeansClustering.testClustering(clusters, test_set)
 
 
 _run()

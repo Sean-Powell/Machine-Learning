@@ -35,10 +35,10 @@ def chooseStartingClusterCenters(data_set):
 def _clusterForming(clusters, data_set):
     for data in data_set:
         found = 0
-        for cluster in clusters:
-            if cluster.cluster_center_x == data.get_x() and cluster.cluster_center_y == data.get_y() \
-                    and cluster.cluster_center_z == data.get_z():
-                found = 1
+        # for cluster in clusters:
+        #     if cluster.cluster_center_x == data.get_x() and cluster.cluster_center_y == data.get_y() \
+        #             and cluster.cluster_center_z == data.get_z():
+        #         found = 1
         if found == 0:
             distance_to_closest = sys.maxsize
             closest_index = -1

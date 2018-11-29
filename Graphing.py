@@ -65,8 +65,8 @@ def _newPlot3DClustering(clusters, labels):
         elif i == 2:
             color = 'b'
         i += 1
-        ax.scatter(float(cluster.get_original_x()), float(cluster.get_original_y()), float(cluster.get_original_z()),
-                   c=color, marker='o')
+        # ax.scatter(float(cluster.get_original_x()), float(cluster.get_original_y()), float(cluster.get_original_z()),
+        #            c=color, marker='o')
         for data in cluster.get_list():
             x = float(data.get_x())
             y = float(data.get_y())
