@@ -48,9 +48,9 @@ def DrawClustering(clusters, labels):
     if clusters[0].get_y() != 0 and clusters[0].get_z() != 0:
         _newPlot3DClustering(clusters, labels)
     elif clusters[0].get_y() != 0:
-        _plot2DClustering(clusters, labels)
+        _newPlot2DClustering(clusters, labels)
     else:
-        _plot1DClustering(clusters, labels)
+        _newPlot1DClustering(clusters, labels)
 
 
 def _newPlot3DClustering(clusters, labels):
@@ -65,16 +65,11 @@ def _newPlot3DClustering(clusters, labels):
         elif i == 2:
             color = 'b'
         i += 1
-        # ax.scatter(float(cluster.get_original_x()), float(cluster.get_original_y()), float(cluster.get_original_z()),
-        #            c=color, marker='o')
         for data in cluster.get_list():
             x = float(data.get_x())
             y = float(data.get_y())
             z = float(data.get_z())
             ax.scatter(x, y, z, c=color, marker='o')
-
-        ax.scatter(float(cluster.get_x()), float(cluster.get_y()), float(cluster.get_z()),
-                   c=color, marker='*')
 
     ax.set_xlabel(labels[0])
     ax.set_ylabel(labels[1])
@@ -108,6 +103,35 @@ def _newPlot2DGraph(data_set, labels):
 
     plt.scatter(x, y, 3, c)
 
+    plt.xlabel(labels[0])
+    plt.ylabel(labels[1])
+
+    red_patch = mpatches.Patch(color='red', label='Iris-setosa')
+    green_patch = mpatches.Patch(color='green', label='Iris-versicolor')
+    blue_patch = mpatches.Patch(color='blue', label='Iris-virginica')
+    plt.legend(handles=[red_patch, green_patch, blue_patch])
+
+    plt.show()
+
+
+def _newPlot2DClustering(clusters, labels):
+    x = []
+    y = []
+    c = []
+
+    for i in range(3):
+        for data in clusters[i].get_list():
+            x.append(float(data.get_x()))
+            y.append(float(data.get_y()))
+
+            if i == 0:
+                c.append('r')
+            elif i == 1:
+                c.append('g')
+            else:
+                c.append('b')
+
+    plt.scatter(x, y, 3, c)
     plt.xlabel(labels[0])
     plt.ylabel(labels[1])
 
@@ -175,6 +199,33 @@ def _newPlot1DGraph(data_set, labels):
 
     plt.scatter(x, y, 3, c)
 
+    plt.xlabel(labels[0])
+
+    red_patch = mpatches.Patch(color='red', label='Iris-setosa')
+    green_patch = mpatches.Patch(color='green', label='Iris-versicolor')
+    blue_patch = mpatches.Patch(color='blue', label='Iris-virginica')
+    plt.legend(handles=[red_patch, green_patch, blue_patch])
+
+    plt.show()
+
+def _newPlot1DClustering(clusters, labels):
+    x = []
+    y = []
+    c = []
+
+    for i in range(3):
+        for data in clusters[i].get_list():
+            x.append(float(data.get_x()))
+            y.append(0)
+
+            if i == 0:
+                c.append('r')
+            elif i == 1:
+                c.append('g')
+            else:
+                c.append('b')
+
+    plt.scatter(x, y, 3, c)
     plt.xlabel(labels[0])
 
     red_patch = mpatches.Patch(color='red', label='Iris-setosa')

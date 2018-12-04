@@ -2,7 +2,6 @@ import Cluster
 import random
 import sys
 import math
-import Graphing
 
 
 class DimensionLimits:
@@ -90,11 +89,8 @@ def randomlyChooseStartingCenters(data_set):
 
 
 def _clusterForming(cluster_list, data_set, dimensions):
-    print("form clusters")
     index = 0
-    print("-------------")
     for data in data_set:
-        print("Index:", index)
         closest_index = 0
         closest_distance = sys.maxsize
         i = 0
@@ -103,15 +99,12 @@ def _clusterForming(cluster_list, data_set, dimensions):
             eucledian_distance = math.sqrt(math.pow((float(cluster.get_x()) - float(data.get_x())), 2) +
                                            math.pow((float(cluster.get_y()) - float(data.get_y())), 2) +
                                            math.pow((float(cluster.get_z()) - float(data.get_z())), 2))
-            print("Cluster", i, "distance", eucledian_distance)
             if eucledian_distance < closest_distance:
-                print(i, "is closest")
                 closest_distance = eucledian_distance
                 closest_index = i
 
         cluster_list[closest_index].append(data)
         index += 1
-        print("-------------")
 
     return _refactorClusters(cluster_list, 0, dimensions)
 
@@ -126,8 +119,6 @@ def _checkLimits(to_check, upper_limit, lower_limit):
 
 
 def _refactorClusters(cluster_list, times_run, dimensions):
-    print("Refactoring Clusters:")
-    print("---------")
     new_clusters = []
 
     for cluster in cluster_list:
@@ -140,9 +131,9 @@ def _refactorClusters(cluster_list, times_run, dimensions):
             y += float(data.get_y())
             z += float(data.get_z())
 
-        x_average = x / (len(cluster.get_list()) + 1)
-        y_average = z / (len(cluster.get_list()) + 1)
-        z_average = z / (len(cluster.get_list()) + 1)
+        x_average = x / len(cluster.get_list())
+        y_average = z / len(cluster.get_list())
+        z_average = z / len(cluster.get_list())
 
         x_average = _checkLimits(x_average, dimensions.max_x, dimensions.min_x)
         y_average = _checkLimits(y_average, dimensions.max_y, dimensions.min_y)
@@ -155,26 +146,19 @@ def _refactorClusters(cluster_list, times_run, dimensions):
         for data in cluster_list[i].get_list():
             closest_index = 0
             closest_distance = sys.maxsize
-            print("old index:", i)
             for j in range(3):
                 euclidian_distance = math.sqrt(math.pow(float(data.get_x()) - float(new_clusters[j].get_x()), 2) +
                                                math.pow(float(data.get_y()) - float(new_clusters[j].get_y()), 2) +
                                                math.pow(float(data.get_z()) - float(new_clusters[j].get_z()), 2))
-                print(j, "distance", euclidian_distance)
                 if euclidian_distance < closest_distance:
-                    print(j, "is closest")
                     closest_distance = euclidian_distance
                     closest_index = j
             new_clusters[closest_index].append(data)
             if i != closest_index:
-                print("index changed")
                 num_of_changes += 1
-            print("---------")
     if num_of_changes >= 3:
         if times_run < 5:
-            print("Times run =", times_run)
             times_run = times_run + 1
-            Graphing.DrawClustering(cluster_list, ['x', 'y', 'z'])
             return _refactorClusters(new_clusters, times_run, dimensions)
         else:
             print("Max clustering reached returning")
