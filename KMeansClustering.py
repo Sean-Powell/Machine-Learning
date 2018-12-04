@@ -33,7 +33,9 @@ def chooseStartingClusterCenters(data_set):
 
 
 def _clusterForming(clusters, data_set):
+    index = 0
     for data in data_set:
+        print("Data Point:", index)
         found = 0
         # for cluster in clusters:
         #     if cluster.cluster_center_x == data.get_x() and cluster.cluster_center_y == data.get_y() \
@@ -47,10 +49,14 @@ def _clusterForming(clusters, data_set):
                 euclidean_distance = math.sqrt(math.pow(float(data.get_x()) - float(cluster.get_x()), 2) +
                                                math.pow(float(data.get_y()) - float(cluster.get_y()), 2) +
                                                math.pow(float(data.get_z()) - float(cluster.get_z()), 2))
+                print(euclidean_distance, "to point", i)
                 if euclidean_distance < distance_to_closest:
+                    print(i, "is closest")
                     distance_to_closest = euclidean_distance
                     closest_index = i
+                i += 1
             clusters[closest_index].add_to_list(data)
+    index += 1
 
     return _refactorClusters(clusters)
 

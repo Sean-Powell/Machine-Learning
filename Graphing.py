@@ -74,7 +74,7 @@ def _newPlot3DClustering(clusters, labels):
             ax.scatter(x, y, z, c=color, marker='o')
 
         ax.scatter(float(cluster.get_x()), float(cluster.get_y()), float(cluster.get_z()),
-                   c='black', marker='o')
+                   c=color, marker='*')
 
     ax.set_xlabel(labels[0])
     ax.set_ylabel(labels[1])
@@ -83,9 +83,8 @@ def _newPlot3DClustering(clusters, labels):
     red_patch = mpatches.Patch(color='red', label='Iris-setosa')
     green_patch = mpatches.Patch(color='green', label='Iris-versicolor')
     blue_patch = mpatches.Patch(color='blue', label='Iris-virginica')
-    black_patch = mpatches.Patch(color='black', label='Cluster Center')
 
-    plt.legend(handles=[red_patch, green_patch, blue_patch, black_patch])
+    plt.legend(handles=[red_patch, green_patch, blue_patch])
 
     plt.show()
 
